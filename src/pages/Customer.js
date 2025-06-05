@@ -3,10 +3,8 @@ import axios from "axios";
 import React, { Component } from "react";
 import architecture from '../assets/images/architecture.png.jpeg';
 import ban_img from '../assets/images/ban_img.jpeg';
-import { withRouter } from "../utils/withRouter";
-import { useAuth } from "../context/auth";
 import { AuthContext } from "../context/auth";
-import { useNavigate, useLocation } from "react-router-dom";
+import { withRouter } from "../utils/withRouter";
 class Customer extends Component {
     static contextType = AuthContext;
     constructor(props) {
@@ -25,7 +23,7 @@ class Customer extends Component {
             }
         };
     }
-   
+
     handleChange = (e) => {
         const { name, value } = e.target;
         this.setState((prevState) => ({
@@ -47,7 +45,7 @@ class Customer extends Component {
     };
 
     Register = async (e) => {
-        
+
         e.preventDefault();
         const { username, email, password, contact } = this.state.inputs;
 
@@ -58,7 +56,7 @@ class Customer extends Component {
         }
 
         try {
-            const { data } = await axios.post("/api/auth/register", {
+            const { data } = await axios.post("https://backendfyp-production.up.railway.app/api/auth/register", {
                 username,
                 email,
                 password,
@@ -82,43 +80,43 @@ class Customer extends Component {
     };
 
     Login = async (e) => {
-       
-        e.preventDefault();
-        const { email, password,role } = this.state.inputs;
-      
-        try {
-          const { data } = await axios.post("/api/auth/login", {
-            email,
-            password,
-            role,
-          });
-          if (data.success) {
-            alert("User logged in successfully");
-      
-            // Set the user data in the context
-            const [auth, setAuth] = this.context;
-            setAuth({ user: data.user, token: data.token });
-      
-            // Store the user data and token in localStorage
-            localStorage.setItem("auth", JSON.stringify(data));
-            const userRole = data.user.role;
 
-            if (userRole === 1) {
-              this.props.navigate("/dashboard/admin");
+        e.preventDefault();
+        const { email, password, role } = this.state.inputs;
+
+        try {
+            const { data } = await axios.post("https://backendfyp-production.up.railway.app/api/auth/login", {
+                email,
+                password,
+                role,
+            });
+            if (data.success) {
+                alert("User logged in successfully");
+
+                // Set the user data in the context
+                const [auth, setAuth] = this.context;
+                setAuth({ user: data.user, token: data.token });
+
+                // Store the user data and token in localStorage
+                localStorage.setItem("auth", JSON.stringify(data));
+                const userRole = data.user.role;
+
+                if (userRole === 1) {
+                    this.props.navigate("/dashboard/admin");
+                } else {
+                    this.props.navigate("/dashboard/user");
+                }
+
+
             } else {
-              this.props.navigate("/dashboard/user");
+                alert(data.message || "Login failed");
             }
-                  
-           
-          } else {
-            alert(data.message || "Login failed");
-          }
         } catch (error) {
-          console.error("Login error:", error);
-          alert("An error occurred during login. Please try again.");
+            console.error("Login error:", error);
+            alert("An error occurred during login. Please try again.");
         }
-      };
-      
+    };
+
     toggleMode = () => {
         this.setState((prevState) => ({
             isRegister: !prevState.isRegister,

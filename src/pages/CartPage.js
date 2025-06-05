@@ -22,7 +22,7 @@ const CartPage = () => {
   // Get Braintree token
   const getToken = async () => {
     try {
-      const { data } = await axios.get("/api/product/braintree/token");
+      const { data } = await axios.get("https://backendfyp-production.up.railway.app/api/product/braintree/token");
       setClientToken(data?.clientToken);
 
     } catch (error) {
@@ -72,7 +72,7 @@ const CartPage = () => {
     setLoading(true);
     try {
       const { nonce } = await dropinInstance.current.requestPaymentMethod();
-      const { data } = await axios.post("/api/product/braintree/payment", {
+      const { data } = await axios.post("https://backendfyp-production.up.railway.app/api/product/braintree/payment", {
         nonce,
         cart,
       });

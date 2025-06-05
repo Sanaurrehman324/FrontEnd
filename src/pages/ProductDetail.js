@@ -45,7 +45,7 @@ const ProductDetails = () => {
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `/api/product/related-product/${pid}/${cid}`
+        `https://backendfyp-production.up.railway.app/api/product/related-product/${pid}/${cid}`
       );
       setRelatedProducts(data?.products);
     } catch (error) {

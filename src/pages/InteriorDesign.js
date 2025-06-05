@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useCart } from "../context/cart";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/cart";
 
 const InteriorDesign = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const InteriorDesign = () => {
   const getInteriorProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/product/product-list/1");
+      const { data } = await axios.get("https://backendfyp-production.up.railway.app/api/product/product-list/1");
       const interiors = data.products.filter(
         (product) => product.category.name === "Interior Design"
       );

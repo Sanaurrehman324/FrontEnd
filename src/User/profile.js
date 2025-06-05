@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import UserMenu from "../components/Usermenu";
 import { useAuth } from "../context/auth";
-import toast from "react-hot-toast";
-import axios from "axios";
 
 const Profile = () => {
   const [auth, setAuth] = useAuth();
@@ -24,7 +24,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        "/api/auth/profile",
+        "https://backendfyp-production.up.railway.app/api/auth/profile",
         {
           username: name,
           email,

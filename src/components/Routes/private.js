@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../../context/auth";
-import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/auth";
 import Spinner from "../Spinner";
 
 export default function PrivateRoute() {
@@ -11,9 +11,9 @@ export default function PrivateRoute() {
 
   useEffect(() => {
     const authCheck = async () => {
-      const res = await axios.get("/api/auth/user-auth",{
+      const res = await axios.get("https://backendfyp-production.up.railway.app/api/auth/user-auth", {
         headers: {
-          Authorization: `Bearer ${auth.token}`, 
+          Authorization: `Bearer ${auth.token}`,
         }
       });
       if (res.data.ok) {

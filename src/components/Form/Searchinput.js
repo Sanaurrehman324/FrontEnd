@@ -1,9 +1,9 @@
-import React from "react";
-import { useSearch } from "../../context/search";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Box, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { Box, IconButton, InputBase } from "@mui/material";
+import axios from "axios";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useSearch } from "../../context/search";
 
 const SearchInput = () => {
   const [values, setValues] = useSearch();
@@ -13,7 +13,7 @@ const SearchInput = () => {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `/api/product/search/${values.keyword}`
+        `https://backendfyp-production.up.railway.app/api/product/search/${values.keyword}`
       );
       setValues({ ...values, results: data.results });
       navigate("/search");

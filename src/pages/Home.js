@@ -25,7 +25,7 @@ const HomePage = () => {
 
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("/api/category/get-category");
+      const { data } = await axios.get("https://backendfyp-production.up.railway.app/api/category/get-category");
       if (data?.success) setCategories(data?.category);
     } catch (error) {
       console.log(error);
@@ -35,7 +35,7 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/product/product-list/${page}`);
+      const { data } = await axios.get(`https://backendfyp-production.up.railway.app/api/product/product-list/${page}`);
       setLoading(false);
       setProducts(data.products);
     } catch (error) {
@@ -46,7 +46,7 @@ const HomePage = () => {
 
   const getTotal = async () => {
     try {
-      const { data } = await axios.get("/api/product/product-count");
+      const { data } = await axios.get("https://backendfyp-production.up.railway.app/api/product/product-count");
       setTotal(data?.total);
     } catch (error) {
       console.log(error);
@@ -61,7 +61,7 @@ const HomePage = () => {
   const loadMore = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/product/product-list/${page}`);
+      const { data } = await axios.get(`https://backendfyp-production.up.railway.app/api/product/product-list/${page}`);
       setLoading(false);
       setProducts([...products, ...(data?.products || [])]);
     } catch (error) {
@@ -82,7 +82,7 @@ const HomePage = () => {
 
   const filterProduct = async () => {
     try {
-      const { data } = await axios.post("/api/product/product-filters", {
+      const { data } = await axios.post("https://backendfyp-production.up.railway.app/api/product/product-filters", {
         checked,
       });
       setProducts(data?.products);
