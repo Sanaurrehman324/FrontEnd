@@ -1,0 +1,70 @@
+.login-container {
+    width: 1040px;
+    /* Width */
+    height: 170px;
+    /* Height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 54px;
+    /* Gap */
+    padding: 81px 65px;
+    /* Padding: top/bottom = 81px, left/right = 65px */
+    border-radius: 24px;
+    /* Corner/Extra-large radius (adjust as needed) */
+    position: relative;
+    /* Required for pseudo-element */
+    overflow: hidden;
+    /* Ensures the image doesn't overflow the container */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Optional: Add a shadow for depth */
+    font-family: Arial, sans-serif;
+    color: white;
+    /* Text color for better contrast */
+}
+
+/* Pseudo-element for gradient and opacity */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/ban_img.jpeg');
+    /* Path to your background image */
+    background-size: cover;
+    /* Ensures the image covers the entire container */
+    /* background-position: center; */
+    /* Centers the background image */
+    opacity: 0.2;
+    scale: crop;
+    /* 20% opacity for the image */
+    z-index: 1;
+    /* Ensure it's above the container background */
+}
+
+/* Gradient overlay */
+.login-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #3A4750 13.5%, rgba(58, 71, 80, 0.5) 82.6%, rgba(58, 71, 80, 0.25) 100%);
+    z-index: 2;
+    /* Ensure it's above the image */
+}
+
+.login-container h1 {
+    font-size: 48px;
+    /* Adjust font size as needed */
+    font-weight: bold;
+    margin: 0;
+    /* Remove default margin */
+    position: relative;
+    /* Ensure text is above the overlays */
+    z-index: 3;
+    /* Ensure text is above the gradient and image */
+}

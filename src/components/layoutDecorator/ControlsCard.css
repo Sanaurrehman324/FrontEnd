@@ -1,0 +1,33 @@
+.controls-card {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    z-index: 10;
+}
+
+.controls-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.controls-card ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.controls-card li {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.controls-card strong {
+    color: #000;
+}
