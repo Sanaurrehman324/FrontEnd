@@ -23,7 +23,7 @@ const CreateProduct = () => {
   useEffect(() => {
     const getAllCategory = async () => {
       try {
-        const { data } = await axios.get("/api/category/get-category");
+        const { data } = await axios.get("https://backend-production-8ea6.up.railway.app/api/category/get-category");
         if (data?.success) setCategories(data.category);
       } catch (error) {
         console.log(error);
@@ -42,11 +42,14 @@ const CreateProduct = () => {
         price,
         category,
         size,
-        photo: imageURLs.map((url) => ({ url })),
+        photo: imageURLs
+          .filter((url) => url.trim() !== "")
+          .map((url) => ({ url })),
         modelURL,
         viewerURL,
       };
-      const { data } = await axios.post("/api/product/create-product", productData);
+
+      const { data } = await axios.post("https://backend-production-8ea6.up.railway.app/api/product/create-product", productData);
       if (data?.success) {
         toast.success("Product Created Successfully");
         navigate("/dashboard/admin/products");
@@ -156,33 +159,52 @@ const CreateProduct = () => {
           )}
         </Select>
 
-        {/* Image URL Inputs */}
+        {/* Image URL Inputs with Remove Option */}
         <label style={labelStyle}>Enter Image URLs (from Cloudinary)</label>
         {imageURLs.map((url, index) => (
-          <input
-            key={index}
-            type="text"
-            placeholder={`Image URL ${index + 1}`}
-            value={url}
-            style={inputStyle}
-            onChange={(e) => {
-              const newURLs = [...imageURLs];
-              newURLs[index] = e.target.value;
-              setImageURLs(newURLs);
-            }}
-          />
+          <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+            <input
+              type="text"
+              placeholder={`Image URL ${index + 1}`}
+              value={url}
+              style={{ ...inputStyle, marginBottom: 0, flex: 1 }}
+              onChange={(e) => {
+                const newURLs = [...imageURLs];
+                newURLs[index] = e.target.value;
+                setImageURLs(newURLs);
+              }}
+            />
+            {imageURLs.length > 1 && (
+              <button
+                type="button"
+                onClick={() => {
+                  const updated = imageURLs.filter((_, i) => i !== index);
+                  setImageURLs(updated);
+                }}
+                style={{
+                  backgroundColor: "#ff4d4f",
+                  color: "#fff",
+                  border: "none",
+                  padding: "8px 12px",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                }}
+              >
+                Remove
+              </button>
+            )}
+          </div>
         ))}
+
         <button
           type="button"
           style={addImageButtonStyle}
           onClick={() => setImageURLs([...imageURLs, ""])}
-          onMouseOver={(e) => (e.target.style.opacity = "0.9")}
-          onMouseOut={(e) => (e.target.style.opacity = "1")}
         >
           + Add another image
         </button>
 
-        {/* Text Inputs */}
+        {/* Other Inputs */}
         <input
           type="text"
           value={name}
@@ -225,13 +247,9 @@ const CreateProduct = () => {
           onChange={(e) => setViewerURL(e.target.value)}
         />
 
-
-        {/* Submit Button */}
         <button
           style={buttonStyle}
           onClick={handleCreate}
-          onMouseOver={(e) => (e.target.style.opacity = "0.9")}
-          onMouseOut={(e) => (e.target.style.opacity = "1")}
         >
           CREATE PRODUCT
         </button>

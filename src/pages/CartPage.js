@@ -15,16 +15,12 @@ const CartPage = () => {
   const dropinInstance = useRef(null);
   const navigate = useNavigate();
   const [downloadLinks, setDownloadLinks] = useState([]);
-  const [showDownloadLinks, setShowDownloadLinks] = useState(false);
-
-
 
   // Get Braintree token
   const getToken = async () => {
     try {
-      const { data } = await axios.get("https://backendfyp-production.up.railway.app/api/product/braintree/token");
+      const { data } = await axios.get("https://backend-production-8ea6.up.railway.app/api/product/braintree/token");
       setClientToken(data?.clientToken);
-
     } catch (error) {
       console.log("Token Error:", error);
     }
@@ -37,7 +33,13 @@ const CartPage = () => {
   }, [auth?.token]);
 
   useEffect(() => {
-    if (clientToken && auth?.token && dropinRef.current && !dropinInstance.current) {
+    if (
+      clientToken &&
+      auth?.token &&
+      dropinRef.current &&
+      !dropinInstance.current &&
+      cart?.length > 0
+    ) {
       dropin.create(
         {
           authorization: clientToken,
@@ -58,21 +60,29 @@ const CartPage = () => {
 
     return () => {
       if (dropinInstance.current) {
-        dropinInstance.current.teardown().then(() => {
-          dropinInstance.current = null;
-        }).catch((err) => {
-          console.warn("Drop-in teardown error:", err);
-        });
+        dropinInstance.current
+          .teardown()
+          .then(() => {
+            dropinInstance.current = null;
+          })
+          .catch((err) => {
+            console.warn("Drop-in teardown error:", err);
+          });
       }
     };
-  }, [clientToken, auth?.token]);
+  }, [clientToken, auth?.token, cart?.length]);
 
   const handlePayment = async () => {
-    if (!dropinInstance.current) return;
+    if (!dropinInstance.current || cart.length === 0) {
+      alert("Your cart is empty. Please add items before making a payment.");
+      return;
+    }
+
     setLoading(true);
+
     try {
       const { nonce } = await dropinInstance.current.requestPaymentMethod();
-      const { data } = await axios.post("https://backendfyp-production.up.railway.app/api/product/braintree/payment", {
+      const { data } = await axios.post("https://backend-production-8ea6.up.railway.app/api/product/braintree/payment", {
         nonce,
         cart,
       });
@@ -85,17 +95,12 @@ const CartPage = () => {
         }));
 
       setDownloadLinks(links);
-
       setLoading(false);
 
       if (data && data.success) {
         alert("Payment Successful");
-        // window.open('https://3-d-canvas-x.vercel.app/', '_blank');
-        setDownloadLinks(links);
       } else {
         alert("Payment Successful");
-        // window.open('https://3-d-canvas-x.vercel.app/', '_blank');
-        setDownloadLinks(links);
       }
 
       setCart([]);
@@ -103,19 +108,10 @@ const CartPage = () => {
     } catch (err) {
       setLoading(false);
       console.error("Payment Error:", err);
-
-      const links = cart
-        ?.filter((item) => item?.modelURL)
-        .map((item) => ({
-          name: item.name || "Unnamed Product",
-          url: item.modelURL,
-        }));
-
-
-
-      alert("There was a problem processing your payment, downloads cann not be accessed.");
+      alert("There was a problem processing your payment.");
     }
   };
+
   const totalPrice = () => {
     let total = 0;
     cart?.forEach((item) => (total += item.price));
@@ -125,10 +121,12 @@ const CartPage = () => {
     });
   };
 
-  const removeCartItem = (pid) => {
-    const myCart = [...cart];
-    const index = myCart.findIndex((item) => item._id === pid);
-    myCart.splice(index, 1);
+  const removeCartItem = (item) => {
+    const myCart = cart.filter((c) => {
+      if (item._id) return c._id !== item._id;
+      if (item.id) return c.id !== item.id;
+      return true;
+    });
     setCart(myCart);
     localStorage.setItem("cart", JSON.stringify(myCart));
   };
@@ -136,14 +134,11 @@ const CartPage = () => {
   return (
     <div className="cart-page">
       <h1 className="text-center bg-light p-2 mb-1">
-        {!auth?.user
-          ? "Hello Guest"
-          : `Hello ${auth?.token && auth?.user?.username}`}
+        {!auth?.user ? "Hello Guest" : `Hello ${auth?.token && auth?.user?.username}`}
         <br />
         <p className="text-center">
           {cart?.length
-            ? `You have ${cart.length} items in your cart${auth?.token ? "" : " — please login to checkout!"
-            }`
+            ? `You have ${cart.length} items in your cart${auth?.token ? "" : " — please login to checkout!"}`
             : "Your Cart Is Empty"}
         </p>
       </h1>
@@ -152,7 +147,7 @@ const CartPage = () => {
         {/* Left Side: Cart Items */}
         <div className="cart-items">
           {cart?.map((p) => (
-            <div className="cart-item-card" key={p._id}>
+            <div className="cart-item-card" key={p._id || p.id}>
               <div className="cart-left">
                 <img src={p?.photo?.[0]?.url} alt={p.name} />
                 <div className="cart-details">
@@ -160,12 +155,12 @@ const CartPage = () => {
                   <p>${p.price}</p>
                 </div>
               </div>
-              <button className="remove-btn" onClick={() => removeCartItem(p._id)}>
+              <button className="remove-btn" onClick={() => removeCartItem(p)}>
                 Remove
               </button>
-
             </div>
           ))}
+
           {/* Show download links after successful payment */}
           {downloadLinks.length > 0 && (
             <div className="download-links mt-4">
@@ -206,23 +201,30 @@ const CartPage = () => {
             </div>
           )}
 
-
           {auth?.token && (
             <>
-              <div ref={dropinRef} className="braintree-dropin-container"></div>
-              <button
-                className="btn btn-primary mt-3"
-                onClick={handlePayment}
-                disabled={loading}
-              >
-                {loading ? "Processing..." : "Make Payment"}
-              </button>
-
-
-
+              {cart.length === 0 ? (
+                <p style={{ color: "red", fontWeight: "bold" }}>
+                  ⚠️ Add items to cart before proceeding to payment.
+                </p>
+              ) : (
+                <>
+                  <div ref={dropinRef} className="braintree-dropin-container"></div>
+                  <button
+                    className="btn btn-primary mt-3"
+                    onClick={handlePayment}
+                    disabled={loading || cart.length === 0}
+                    style={{
+                      opacity: loading || cart.length === 0 ? 0.5 : 1,
+                      cursor: loading || cart.length === 0 ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    {loading ? "Processing..." : "Make Payment"}
+                  </button>
+                </>
+              )}
             </>
           )}
-
         </div>
       </div>
     </div>

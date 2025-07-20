@@ -24,7 +24,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        "https://backendfyp-production.up.railway.app/api/auth/profile",
+        "https://backend-production-8ea6.up.railway.app/api/auth/profile",
         {
           username: name,
           email,

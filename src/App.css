@@ -1,5 +1,241 @@
+/* ==== Global Reset & Base Styles ==== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.container {
+  max-width: 100%;
+  width: min(95%, 1200px);
+  margin: auto;
+  padding: clamp(10px, 2vw, 20px);
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ==== Typography ==== */
+.main-heading {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sub-heading {
+  font-size: clamp(16px, 2vw, 20px);
+  margin-bottom: 20px;
+}
+
+/* ==== Buttons ==== */
+.btn {
+  font-size: clamp(12px, 1.2vw, 14px);
+  padding: clamp(8px, 1vw, 10px) clamp(14px, 2vw, 18px);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  background-color: #3A4750;
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #00b894;
+}
+
+/* ==== Card Component ==== */
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-img-top {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: clamp(16px, 1.5vw, 18px);
+  font-weight: 600;
+}
+
+.card-price {
+  color: #28a745;
+  font-weight: 600;
+  font-size: clamp(14px, 1.4vw, 16px);
+}
+
+.card-text {
+  font-size: clamp(12px, 1.3vw, 14px);
+  color: #555;
+  margin-top: 10px;
+}
+
+.card-name-price {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* ==== Product Grid ==== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* ==== Filter Sidebar ==== */
+.filter-sidebar {
+  flex: 0 0 250px;
+  max-width: 100%;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  margin-right: 20px;
+  height: fit-content;
+}
+
+.reset-btn {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: #ff3b3b;
+}
+
+/* ==== Header & Hero ==== */
+.homepage-header {
+  background: linear-gradient(135deg, #b0bec5, #eceff1);
+  padding: clamp(40px, 5vw, 60px) 30px;
+  text-align: center;
+}
+
+.shop-now-btn {
+  background-color: #00b894;
+  color: white;
+  padding: clamp(10px, 2vw, 12px) clamp(18px, 3vw, 24px);
+  font-size: clamp(14px, 1.5vw, 16px);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.shop-now-btn:hover {
+  background-color: #019875;
+}
+
+/* ==== Content Layout ==== */
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* ==== Media Queries ==== */
+
+/* Extra small devices (less than 400px) */
+@media (max-width: 400px) {
+  .main-heading {
+    font-size: 20px;
+  }
+
+  .sub-heading {
+    font-size: 14px;
+  }
+
+  .card-title {
+    font-size: 15px;
+  }
+
+  .card-price {
+    font-size: 13px;
+  }
+
+  .card-text {
+    font-size: 12px;
+  }
+}
+
+/* Small devices (phones) */
+@media (max-width: 576px) {
+  .btn {
+    width: 100%;
+  }
+
+  .filter-sidebar {
+    flex: 1 1 100%;
+    margin: 0 0 20px 0;
+  }
+
+  .content {
+    flex-direction: column;
+  }
+}
+
+/* Medium-small devices (phablets/small tablets) */
+@media (max-width: 680px) {
+  .product-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* Medium devices (tablets) */
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filter-sidebar {
+    flex: 1 1 100%;
+    margin-right: 0;
+  }
+
+  .content {
+    flex-direction: column;
+  }
+}
+
+/* Medium-large devices (small laptops) */
+@media (max-width: 992px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card-img-top {
+    height: 180px;
+  }
+}
+
+/* Large devices (desktops and above) */
+@media (min-width: 993px) {
+  .content {
+    flex-direction: row;
+  }
 }

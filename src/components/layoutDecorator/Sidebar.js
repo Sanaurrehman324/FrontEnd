@@ -1,84 +1,31 @@
 import React, { useState } from "react";
 import {
     FaBars, FaBath, FaBed,
-    FaCouch, FaKitchenSet,
     FaLeaf, FaLightbulb, FaRug, FaTable, FaTv
 } from "react-icons/fa6";
 import { FiDownload } from "react-icons/fi";
-import sofa3Model from './models/3Sofa.glb';
-import chandelierModel from './models/Chandelier.glb';
-import chandelier2Model from './models/Chandelier2.glb';
-import classicBedModel from './models/Classic Bed.glb';
-import classicKitchenModel from './models/Classic Kitchen.glb';
-import classicBed2Model from './models/ClassicalBed.glb';
-import coffeeTableModel from './models/CoffeeTable.glb';
-import couchModel from './models/Couch.glb';
-import curtainModel from './models/Curtain.glb';
-import curtain2Model from './models/Curtain2.glb';
-import dinningTableModel from './models/Dinning Table.glb';
-import diningTableModel from './models/Dinning.glb';
-import dressingTableModel from './models/DressingTable.glb';
-import fireplaceModel from './models/Fireplace Builtin.glb';
-import kitchenIslandModel from './models/Kitchen-Island.glb';
-import kitchenModel from './models/Kitchen.glb';
-import lKitchenModel from './models/L-Kitchen.glb';
-import modernBedModel from './models/ModernBed.glb';
-import pendantLightModel from './models/PendantLight.glb';
-import planterModel from './models/Planter.glb';
-import portraitModel from './models/Portraits.glb';
-import roundDiningModel from './models/RoundDinning.glb';
-import roundRugModel from './models/Round_Rug.glb';
-import rugModel from './models/Rug.glb';
-import sofaModel from './models/SofaChair.GLB';
-import sofaSetModel from './models/SofaSet.glb';
-import tvConsole2Model from './models/TV Console2.glb';
-import tvConsoleModel from './models/TV-Console.glb';
-import tableModel from './models/Table.glb';
-import vanityModel from './models/Vanity.glb';
-import woodBed2Model from './models/WoodBed.glb';
-import woodenBedModel from './models/WoodenBed.glb';
 // import chairModel from './models/furniture_sofa.glb';
-import kingBedModel from './models/king_bed.glb';
 
 
 
 const furnitureItems = [
-    { name: "Bed", path: kingBedModel, icon: <FaBed /> },
-    { name: "Wood-Bed", path: woodenBedModel, icon: <FaBed /> },
-    { name: "Wood-Bed2", path: woodBed2Model, icon: <FaBed /> },
-    { name: "ModernBed", path: modernBedModel, icon: <FaBed /> },
-    { name: "Classic Bed", path: classicBedModel, icon: <FaBed /> },
-    { name: "Classic Bed-2", path: classicBed2Model, icon: <FaBed /> },
-    { name: "FirePlace Built-in", path: fireplaceModel, icon: <FaBed /> },
-    { name: "Chandelier", path: chandelierModel, icon: <FaLightbulb /> },
-    { name: "Chandelier2", path: chandelier2Model, icon: <FaLightbulb /> },
-    // { name: "Chair", path: chairModel, icon: <FaChair /> },
-    { name: "Planter", path: planterModel, icon: <FaLeaf /> },
-    { name: "Kitchen", path: kitchenModel, icon: <FaKitchenSet /> },
-    { name: "Classic Kitchen", path: classicKitchenModel, icon: <FaKitchenSet /> },
-    { name: "Kitchen Island", path: kitchenIslandModel, icon: <FaKitchenSet /> },
-    { name: "L Kitchen", path: lKitchenModel, icon: <FaKitchenSet /> },
-    { name: "3 Seater Sofa", path: sofa3Model, icon: <FaCouch /> },
-    { name: "Tv-Console", path: tvConsoleModel, icon: <FaTv /> },
-    { name: "Tv-Console2", path: tvConsole2Model, icon: <FaTv /> },
-    { name: "Pendant-Light", path: pendantLightModel, icon: <FaLightbulb /> },
-    { name: "Sofa", path: sofaModel, icon: <FaCouch /> },
-    { name: "Couch", path: couchModel, icon: <FaCouch /> },
-    { name: "SofaSet", path: sofaSetModel, icon: <FaCouch /> },
-    { name: "CoffeeTable", path: coffeeTableModel, icon: <FaTable /> },
-    { name: "Table", path: tableModel, icon: <FaTable /> },
-    { name: "Rug", path: rugModel, icon: <FaRug /> },
-    { name: "Round Rug", path: roundRugModel, icon: <FaRug /> },
-    { name: "Curtain", path: curtainModel, icon: <FaRug /> },
-    { name: "Curtain2", path: curtain2Model, icon: <FaRug /> },
-    { name: "DinningTable", path: dinningTableModel, icon: <FaTable /> },
-    { name: "Dining Table", path: diningTableModel, icon: <FaTable /> },
-    { name: "Round Dining Table", path: roundDiningModel, icon: <FaTable /> },
-    { name: "DressingTable", path: dressingTableModel, icon: <FaTable /> },
-    { name: "Vanity", path: vanityModel, icon: <FaBath /> },
-    { name: "Image Portrait", path: portraitModel, icon: <FaBath /> },
-];
+    { name: "Wood-Bed", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264921/WoodBed_tgxanb.glb", icon: <FaBed /> },
+    { name: "Classic Bed", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264940/Classic_Bed_ugz4ti.glb", icon: <FaBed /> },
+    { name: "FirePlace Built-in", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264875/Fireplace_Builtin_nsde7p.glb", icon: <FaBed /> },
+    { name: "Chandelier", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752263323/Chandelier_sictva.glb", icon: <FaLightbulb /> },
+    { name: "Chandelier2", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264918/Chandelier2_ukylhz.glb", icon: <FaLightbulb /> },
+    { name: "Planter", path: "/https://res.cloudinary.com/dgnppjqah/image/upload/v1752264945/Planter_avfvdn.glb", icon: <FaLeaf /> },
+    { name: "Tv-Console", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264940/TV_Console2_awwwxn.glb", icon: <FaTv /> },
+    { name: "Pendant-Light", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264872/PendantLight_fg8ciu.glb", icon: <FaLightbulb /> },
+    { name: "CoffeeTable", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264946/CoffeeTable_jp5unx.glb", icon: <FaTable /> },
+    { name: "Rug", path: "/https://res.cloudinary.com/dgnppjqah/image/upload/v1752264872/Rug_qlkbkw.glb", icon: <FaRug /> },
+    { name: "Round Rug", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264927/Round_Rug_mjfvtg.glb", icon: <FaRug /> },
+    { name: "Curtain", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264944/Curtain2_lhqgim.glb", icon: <FaRug /> },
+    { name: "DressingTable", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264874/Mirror_with_Table_syx36l.glb", icon: <FaTable /> },
+    { name: "Vanity", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264911/Vanity_b7ohlw.glb", icon: <FaBath /> },
+    { name: "Image Portrait", path: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264875/Portraits_upz3dr.glb", icon: <FaBath /> },
 
+];
 
 const Sidebar = ({ onAddFurniture, onCaptureScreenshot }) => {
     const [isOpen, setIsOpen] = useState(true);

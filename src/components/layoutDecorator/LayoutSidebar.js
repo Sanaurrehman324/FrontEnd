@@ -4,25 +4,26 @@ import "./LayoutSidebar.css"; // ✅ Optional
 const layouts = [
     {
         name: "Evergreen Duplex Residence",
-        modelPath: "/models/Evergreen Duplex Residence.glb",
+        modelPath: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264946/jaime_fgzsc2.glb",
         icon: "🏠",
     },
-    {
-        name: "Luxury Classical Villa",
-        modelPath: "/models/Luxury Classical Villa.glb",
-        icon: "🏡",
-    },
+    // {
+    //     name: "Luxury Classical Villa",
+    //     modelPath: "/models/mdab.glb",
+    //     icon: "🏡",
+    // },
     {
         name: "Modern Appartment Interior Layout",
-        modelPath: "/models/Hamisha.glb",
+        modelPath: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264872/Hamisha_vvmn2q.glb",
         icon: "🏢",
     },
     {
         name: "Contemporary House Layout",
-        modelPath: "/models/Contemporary House Layout.glb",
+        modelPath: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752263471/Allysa_j6siev.glb",
         icon: "🏢",
     },
 ];
+
 
 const LayoutSidebar = ({ onSelectLayout }) => {
     const [isOpen, setIsOpen] = useState(true);

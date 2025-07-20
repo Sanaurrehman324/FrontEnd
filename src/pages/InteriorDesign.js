@@ -13,7 +13,7 @@ const InteriorDesign = () => {
   const getInteriorProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("https://backendfyp-production.up.railway.app/api/product/product-list/1");
+      const { data } = await axios.get("https://backend-production-8ea6.up.railway.app/api/product/product-list/1");
       const interiors = data.products.filter(
         (product) => product.category.name === "Interior Design"
       );
@@ -29,40 +29,63 @@ const InteriorDesign = () => {
     getInteriorProducts();
   }, []);
 
+  const handleAddToCart = (product) => {
+    const alreadyInCart = cart.some((item) => item._id === product._id);
+    if (alreadyInCart) {
+      toast.error("Item is already in your cart");
+      return;
+    }
+    const updatedCart = [...cart, product];
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    toast.success("Item added to cart");
+  };
+
   return (
     <>
       <style>{`
+        .interior-page {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #f5f5f5;
+        }
+
+        .interior-header {
+          background: linear-gradient(135deg, #b0bec5, #eceff1);
+          padding: 60px 30px;
+          text-align: center;
+        }
+
+        .interior-header h1 {
+          margin: 0;
+          font-size: 36px;
+          font-weight: bold;
+          color: #2d3436;
+        }
+
         .container {
           padding: 20px;
-          background-color: #f9f9f9;
         }
 
         .scroll-container {
           display: flex;
-          flex-direction: row;
-          flex-wrap: nowrap;
-          overflow-x: auto;
-          gap: 10px;
-          scroll-snap-type: x mandatory;
-          padding-bottom: 10px;
+          flex-wrap: wrap;
+          gap: 20px;
         }
 
-          .card {
-  width: 500px;
-  height: auto;
-  padding: 15px;
-  margin: 15px; /* Apply margin on all sides for spacing between cards */
-  border: none;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-}
+        .card {
+          width: 500px;
+          height: auto;
+          padding: 15px;
+          margin: 15px;
+          border: none;
+          border-radius: 15px;
+          overflow: hidden;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          background: #ffffff;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
 
         .card-img-top {
           height: 200px;
@@ -93,6 +116,13 @@ const InteriorDesign = () => {
           padding: 6px 12px;
           color: white;
           background-color: #3A4750;
+          border: none;
+          border-radius: 5px;
+          transition: background-color 0.2s ease;
+        }
+
+        .btn:hover {
+          background-color: #00b894;
         }
 
         .card-name-price {
@@ -103,58 +133,61 @@ const InteriorDesign = () => {
           gap: 5px;
         }
 
-        h1.text-center {
-          margin-bottom: 20px;
+        @media (max-width: 768px) {
+          .scroll-container {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .card {
+            width: 90%;
+          }
         }
-                .scroll-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
       `}</style>
 
-      <div className="container">
-        <h1 className="text-center">Interior Design Products</h1>
-        <div className="scroll-container">
-          {products?.map((p) => (
-            <div className="card" key={p._id}>
-              {p.photo && p.photo.length > 0 && (
-                <img
-                  src={p.photo[0].url}
-                  className="card-img-top"
-                  alt={p.name}
-                />
-              )}
-              <div className="card-body">
-                <h5 className="card-title">{p.name}</h5>
-                <h5 className="card-title card-price">
-                  {p.price.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </h5>
-                <p className="card-text">{p.description.substring(0, 60)}...</p>
-                <div className="card-name-price">
-                  <button
-                    className="btn btn-info ms-1"
-                    onClick={() => navigate(`/product/${p.slug}`)}
-                  >
-                    More Details
-                  </button>
-                  <button
-                    className="btn btn-dark ms-1"
-                    onClick={() => {
-                      setCart([...cart, p]);
-                      localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                      toast.success("Item Added to cart");
-                    }}
-                  >
-                    ADD TO CART
-                  </button>
+      <div className="interior-page">
+        <div className="interior-header">
+          <h1>Interior Design Products</h1>
+        </div>
+
+        <div className="container">
+          <div className="scroll-container">
+            {products?.map((p) => (
+              <div className="card" key={p._id}>
+                {p.photo && p.photo.length > 0 && (
+                  <img
+                    src={p.photo[0].url}
+                    className="card-img-top"
+                    alt={p.name}
+                  />
+                )}
+                <div className="card-body">
+                  <h5 className="card-title">{p.name}</h5>
+                  <h5 className="card-price">
+                    {p.price.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </h5>
+                  <p className="card-text">{p.description.substring(0, 60)}...</p>
+                  <div className="card-name-price">
+                    <button
+                      className="btn"
+                      onClick={() => navigate(`/product/${p.slug}`)}
+                    >
+                      More Details
+                    </button>
+                    <button
+                      className="btn"
+                      onClick={() => handleAddToCart(p)}
+                    >
+                      ADD TO CART
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </>

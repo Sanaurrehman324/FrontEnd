@@ -9,21 +9,16 @@ import Sidebar from "./layoutDecorator/Sidebar";
 import DimensionsCard from "./layoutDecorator/dimensionscard";
 
 // Import your layouts as modules (make sure these paths and names match your file names)
-import ContemporaryHouseInterior from "./layoutDecorator/models/layouts/Contemporary_House_Interior.glb";
-import EvergreenDuplexResidence from "./layoutDecorator/models/layouts/Evergreen_Duplex_Residence.glb";
-import EvergreenDuplexResidenceInterior from "./layoutDecorator/models/layouts/Evergreen_Duplex_Residence_Interior.glb";
-import LuxuryClassicalVilla from "./layoutDecorator/models/layouts/Luxury_Classical_Villa.glb";
-import ModernApartmentInteriorLayout from "./layoutDecorator/models/layouts/Modern_Appartment_Interior_Layout.glb";
 
 
 function LayoutDecorator() {
     // Map display layout names to imported GLB URLs
     const layoutModels = {
-        "Contemporary House Interior": ContemporaryHouseInterior,
-        "Evergreen Duplex Residence Interior": EvergreenDuplexResidenceInterior,
-        "Evergreen Duplex Residence": EvergreenDuplexResidence,
-        "Luxury Classical Villa": LuxuryClassicalVilla,
-        "Modern Apartment Interior Layout": ModernApartmentInteriorLayout,
+        "Contemporary House Interior": "https://res.cloudinary.com/dgnppjqah/image/upload/v1752263471/Allysa_j6siev.glb",
+        "Evergreen Duplex Residence Interior": "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264946/jaime_fgzsc2.glb",
+        "Evergreen Duplex Residence": "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264946/jaime_fgzsc2.glb",
+        "Luxury Classical Villa": "https://res.cloudinary.com/dgnppjqah/image/upload/v1752263471/Allysa_j6siev.glb",
+        "Modern Apartment Interior Layout": "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264872/Hamisha_vvmn2q.glb",
     };
 
     const sceneRef = useRef(new THREE.Scene());
@@ -75,7 +70,9 @@ function LayoutDecorator() {
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setClearColor(0x999999);
-        document.body.appendChild(renderer.domElement);
+        // document.body.appendChild(renderer.domElement);
+        const container = document.getElementById("three-canvas-container");
+        container.appendChild(renderer.domElement);
 
         camera.position.set(0, 5, 15);
 
@@ -291,6 +288,17 @@ function LayoutDecorator() {
 
     return (
         <>
+            <div
+                id="three-canvas-container"
+                style={{
+                    width: "100vw",
+                    height: "100vh",
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    zIndex: 0,
+                }}
+            ></div>
             <Sidebar onAddFurniture={addFurniture} onCaptureScreenshot={captureScreenshot} />
             {/* <LayoutSidebar onSelectLayout={loadLayout} /> */}
             <ControlsCard />

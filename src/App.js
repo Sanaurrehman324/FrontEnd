@@ -3,67 +3,118 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./components/Footer";
 import { Header } from "./components/Header";
 import { AuthProvider } from "./context/auth";
-import Customer from "./pages/Customer";
-import ExteriorDesign from "./pages/Exterior Desgin";
-import Home from "./pages/Home";
-import InteriorDesign from "./pages/InteriorDesign";
-
+import { CartProvider } from "./context/cart";
 import { Toaster } from "react-hot-toast";
-import CartPage from "../src/pages/CartPage";
+import './App.css';
+
+
+// Public Pages
+import Home from "./pages/Home";
+import Customer from "./pages/Customer";
+import InteriorDesign from "./pages/InteriorDesign";
+import ExteriorDesign from "./pages/Exterior Desgin";
+import Contact from "./pages/Contact";
+import Search from "./User/Search";
+import CartPage from "./pages/CartPage";
+import ProductDetail from "./pages/ProductDetail";
+
+// User Pages
+import PrivateRoute from "./components/Routes/private";
 import Dashboard from "./User/DashBoard";
 import Orders from "./User/Orders";
-import Search from "./User/Search";
 import Profile from "./User/profile";
+
+// Admin Pages
 import AdminRoute from "./components/Routes/AdminRoute";
-import PrivateRoute from "./components/Routes/private";
-import LayoutDecoratorApp from "./components/layoutDecorator";
-import { CartProvider } from "./context/cart";
 import AdminDashBoard from "./pages/Admin/AdminDashBoard";
 import CreateCategory from "./pages/Admin/CreateCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import Products from "./pages/Admin/Product";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
 import Users from "./pages/Admin/Users";
-import Contact from "./pages/Contact";
-import ProductDetail from "./pages/ProductDetail";
+
+// Special Tools
+import LayoutDecoratorApp from "./components/layoutDecorator";
 
 function App() {
   const location = useLocation();
-
-  // List of paths where you DON'T want header/footer, e.g. /layoutDecorate
   const noHeaderFooterRoutes = ["/layoutDecorate"];
-
-  // Check if current path matches one of these routes
   const hideHeaderFooter = noHeaderFooterRoutes.includes(location.pathname);
+
   return (
     <AuthProvider>
       <CartProvider>
         {!hideHeaderFooter && <Header />}
         <Toaster position="top-center" reverseOrder={false} />
         <Routes>
-          {/* your routes */}
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/product/:slug" element={<ProductDetail />} />
+          <Route path="/auth" element={<Customer />} />
+          <Route path="/interior" element={<InteriorDesign />} />
+          <Route path="/exterior" element={<ExteriorDesign />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/search" element={<Search />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/product/:slug" element={<ProductDetail />} />
+          <Route path="/layoutDecorate" element={<LayoutDecoratorApp />} />
+
+          {/* Protected Dashboard */}
           <Route path="/dashboard" element={<PrivateRoute />}>
+            {/* User Routes */}
             <Route path="user" element={<Dashboard />} />
             <Route path="user/orders" element={<Orders />} />
             <Route path="user/profile" element={<Profile />} />
+
+            {/* Admin Routes */}
+            <Route
+              path="admin"
+              element={
+                <AdminRoute>
+                  <AdminDashBoard />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/create-category"
+              element={
+                <AdminRoute>
+                  <CreateCategory />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/create-product"
+              element={
+                <AdminRoute>
+                  <CreateProduct />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/product/:slug"
+              element={
+                <AdminRoute>
+                  <UpdateProduct />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/products"
+              element={
+                <AdminRoute>
+                  <Products />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/users"
+              element={
+                <AdminRoute>
+                  <Users />
+                </AdminRoute>
+              }
+            />
           </Route>
-          <Route path="/dashboard" element={<AdminRoute />}>
-            <Route path="admin" element={<AdminDashBoard />} />
-            <Route path="admin/create-category" element={<CreateCategory />} />
-            <Route path="admin/create-product" element={<CreateProduct />} />
-            <Route path="admin/product/:slug" element={<UpdateProduct />} />
-            <Route path="admin/products" element={<Products />} />
-            <Route path="admin/users" element={<Users />} />
-          </Route>
-          <Route path="/auth" element={<Customer />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/interior" element={<InteriorDesign />} />
-          <Route path="/exterior" element={<ExteriorDesign />} />
-          <Route path="/layoutDecorate" element={<LayoutDecoratorApp />} />
         </Routes>
         {!hideHeaderFooter && <Footer />}
       </CartProvider>

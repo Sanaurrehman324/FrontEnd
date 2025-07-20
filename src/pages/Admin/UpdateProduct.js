@@ -23,7 +23,6 @@ const UpdateProduct = () => {
   const [id, setId] = useState("");
   const [viewerURL, setViewerURL] = useState("");
 
-  // === Styles ===
   const containerStyle = {
     display: "flex",
     gap: "40px",
@@ -99,14 +98,14 @@ const UpdateProduct = () => {
   // Fetch single product
   const getSingleProduct = async () => {
     try {
-      const { data } = await axios.get(`/api/product/get-product/${params.slug}`);
+      const { data } = await axios.get(`https://backend-production-8ea6.up.railway.app/api/product/get-product/${params.slug}`);
       setName(data.product.name);
       setId(data.product._id);
       setDescription(data.product.description);
       setPrice(data.product.price);
       setSize(data.product.size);
       setCategory(data.product.category._id);
-      setProductPhotos(data.product.photo);
+      setProductPhotos(data.product.photo); // [{ url }]
       setModelURL(data.product.modelURL || "");
       setViewerURL(data.product.viewerURL || "");
     } catch (error) {
@@ -118,11 +117,10 @@ const UpdateProduct = () => {
     getSingleProduct();
   }, []);
 
-  // Fetch categories
   useEffect(() => {
     const getAllCategory = async () => {
       try {
-        const { data } = await axios.get("/api/category/get-category");
+        const { data } = await axios.get("https://backend-production-8ea6.up.railway.app/api/category/get-category");
         if (data?.success) setCategories(data.category);
       } catch (error) {
         console.log(error);
@@ -132,7 +130,6 @@ const UpdateProduct = () => {
     getAllCategory();
   }, []);
 
-  // Update product
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -144,9 +141,9 @@ const UpdateProduct = () => {
         modelURL,
         viewerURL,
         category,
-        photo: productPhotos.map((p) => p.url),
+        photo: productPhotos.filter(p => p.url.trim() !== ""), // clean empty
       };
-      const { data } = await axios.put(`/api/product/update-product/${id}`, productData);
+      const { data } = await axios.put(`https://backend-production-8ea6.up.railway.app/api/product/update-product/${id}`, productData);
       if (data?.success) {
         toast.success("Product Updated Successfully");
         navigate("/dashboard/admin/products");
@@ -159,12 +156,11 @@ const UpdateProduct = () => {
     }
   };
 
-  // Delete product
   const handleDelete = async () => {
     try {
       const answer = window.prompt("Are you sure you want to delete this product?");
       if (!answer) return;
-      await axios.delete(`/api/product/delete-product/${id}`);
+      await axios.delete(`https://backend-production-8ea6.up.railway.app/api/product/delete-product/${id}`);
       toast.success("Product Deleted Successfully");
       navigate("/dashboard/admin/products");
     } catch (error) {
@@ -181,6 +177,11 @@ const UpdateProduct = () => {
 
   const addPhotoInput = () => {
     setProductPhotos([...productPhotos, { url: "" }]);
+  };
+
+  const removePhotoInput = (index) => {
+    const updated = productPhotos.filter((_, i) => i !== index);
+    setProductPhotos(updated);
   };
 
   return (
@@ -213,18 +214,36 @@ const UpdateProduct = () => {
           )}
         </Select>
 
-        {/* Image URLs */}
+        {/* Image URLs with remove buttons */}
         <label style={labelStyle}>Product Image URLs</label>
         {productPhotos.map((p, i) => (
-          <input
-            key={i}
-            type="text"
-            value={p.url}
-            placeholder={`Photo URL ${i + 1}`}
-            style={inputStyle}
-            onChange={(e) => handlePhotoChange(i, e.target.value)}
-          />
+          <div key={i} style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+            <input
+              type="text"
+              value={p.url}
+              placeholder={`Photo URL ${i + 1}`}
+              style={{ ...inputStyle, marginBottom: 0, flex: 1 }}
+              onChange={(e) => handlePhotoChange(i, e.target.value)}
+            />
+            {productPhotos.length > 1 && (
+              <button
+                type="button"
+                onClick={() => removePhotoInput(i)}
+                style={{
+                  backgroundColor: "#ff4d4f",
+                  color: "#fff",
+                  border: "none",
+                  padding: "8px 12px",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                }}
+              >
+                Remove
+              </button>
+            )}
+          </div>
         ))}
+
         <button
           type="button"
           style={addImageButtonStyle}
@@ -276,7 +295,7 @@ const UpdateProduct = () => {
           onChange={(e) => setViewerURL(e.target.value)}
         />
 
-        {/* Action Buttons */}
+        {/* Buttons */}
         <button style={buttonStyle} onClick={handleUpdate}>
           UPDATE PRODUCT
         </button>

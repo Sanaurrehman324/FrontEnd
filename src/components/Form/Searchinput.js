@@ -13,9 +13,10 @@ const SearchInput = () => {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `https://backendfyp-production.up.railway.app/api/product/search/${values.keyword}`
+        `https://backend-production-8ea6.up.railway.app/api/product/search/${values.keyword}`
       );
-      setValues({ ...values, results: data.results });
+      // ✅ Clear keyword after search
+      setValues({ ...values, keyword: "", results: data.results });
       navigate("/search");
     } catch (error) {
       console.log(error);
@@ -23,16 +24,20 @@ const SearchInput = () => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{
-      display: "flex",
-      alignItems: "center",
-      backgroundColor: "#f1f1f1",
-      borderRadius: "999px",
-      px: 2,
-      py: 0.5,
-      boxShadow: "inset 0 0 0 1px #e0e0e0",
-      width: { xs: "100%", sm: "250px", md: "300px" },
-    }}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        backgroundColor: "#f1f1f1",
+        borderRadius: "999px",
+        px: 2,
+        py: 0.5,
+        boxShadow: "inset 0 0 0 1px #e0e0e0",
+        width: { xs: "100%", sm: "250px", md: "300px" },
+      }}
+    >
       <InputBase
         placeholder="Home Interior"
         value={values.keyword}

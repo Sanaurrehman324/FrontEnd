@@ -11,7 +11,7 @@ export default function PrivateRoute() {
 
   useEffect(() => {
     const authCheck = async () => {
-      const res = await axios.get("https://backendfyp-production.up.railway.app/api/auth/user-auth", {
+      const res = await axios.get("https://backend-production-8ea6.up.railway.app/api/auth/user-auth", {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         }

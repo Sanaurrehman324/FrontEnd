@@ -16,7 +16,6 @@ const ProductDetails = () => {
   const [viewwUrl, setViewwUrl] = useState();
   const [include3DTool, setInclude3DTool] = useState(false);
 
-
   useEffect(() => {
     if (params?.slug) getProduct();
   }, [params?.slug]);
@@ -24,12 +23,11 @@ const ProductDetails = () => {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `/api/product/get-product/${params.slug}`
+        `https://backend-production-8ea6.up.railway.app/api/product/get-product/${params.slug}`
       );
       if (data?.product) {
         setProduct(data.product);
         getSimilarProduct(data.product._id, data.product.category._id);
-        // console.log("data?.product.viewerURL", data?.product.viewerURL)
         setViewwUrl(data?.product.viewerURL);
       } else {
         toast.error("Product not found");
@@ -40,12 +38,10 @@ const ProductDetails = () => {
     }
   };
 
-  console.log("product123", product)
-
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `https://backendfyp-production.up.railway.app/api/product/related-product/${pid}/${cid}`
+        `https://backend-production-8ea6.up.railway.app/api/product/related-product/${pid}/${cid}`
       );
       setRelatedProducts(data?.products);
     } catch (error) {
@@ -54,20 +50,8 @@ const ProductDetails = () => {
     }
   };
 
-  // let vUrl = product.viewerURL;
-
   const get3DModelUrl = (vUrl) => {
-    console.log("vUrl", vUrl)
     return vUrl;
-
-    // switch (productName.toLowerCase()) {
-    //   case "building":
-    //     return "https://sketchfab.com/models/127706f6b976467e988595648876a3c9/embed";
-    //   case "architecture":
-    //     return "https://sketchfab.com/models/b29c10f5cabf4c95a3641cbd835def3d/embed";
-    //   default:
-    //     return null;
-    // }
   };
 
   return (
@@ -93,22 +77,31 @@ const ProductDetails = () => {
               />
             ))}
           </div>
-
         </div>
 
         <div className="product-info-box">
           <h2>{product.name}</h2>
+
           <div className="price-row">
             <span className="new-price">${product.price?.toFixed(2)}</span>
+          </div>
+
+          <div className="product-size-row" style={{ margin: "10px 0" }}>
+            <strong>Size:</strong> {product.size || "N/A"}
           </div>
 
           <div className="button-group">
             <button
               className="add-cart-btn"
               onClick={() => {
+                const isProductInCart = cart.find(item => item._id === product._id);
+                if (isProductInCart) {
+                  toast.error("Item is already in your cart");
+                  return;
+                }
+
                 let newCart = [...cart, product];
 
-                // Check if 3D tool customization is selected and not already in the cart
                 if (include3DTool && !cart.find(item => item?.id === "3d-tool-global")) {
                   const customizationItem = {
                     id: "3d-tool-global",
@@ -136,21 +129,14 @@ const ProductDetails = () => {
               {view3D ? "Close 3D View" : "View in 3D"}
             </button>
           </div>
+
           <div style={{ marginTop: "1rem" }}>
-            {/* <label>
-              <input
-                type="checkbox"
-                checked={include3DTool}
-                onChange={() => setInclude3DTool(!include3DTool)}
-              />
-              {" "}Use 3D Tool Customization (+ $20)
-            </label> */}
             <button
               className="open-3d-decorator-btn"
               style={{ marginTop: "1rem" }}
               onClick={() => navigate('/layoutDecorate', { state: { layoutName: product.name } })}
             >
-              Open 3D Decorator Tool
+              Customize Interior
             </button>
           </div>
 

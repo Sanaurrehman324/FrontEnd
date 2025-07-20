@@ -9,14 +9,13 @@ const Footer = () => {
                 <div className="pages-column">
                     <h4>Pages</h4>
                     <a href="/">Home</a>
-                    <a href="/interior-design">Interior Design</a>
-                    <a href="/exterior-design">Exterior Design</a>
+                    <a href="/interior">Interior Design</a>
+                    <a href="/exterior">Exterior Design</a>
                     <a href="/contact">Contact</a>
-                    <a href="/about-us">About Us</a>
                 </div>
                 <div className="social-column">
                     <h4>Social Links</h4>
-                    <a href="mailto:info@buildsmart.com"><FaEnvelope />  info@buildsmart.com </a>
+                    <a href="mailto:info@buildsmart.com"><FaEnvelope /> info@buildsmart.com </a>
 
                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
                         <FaFacebook />  facebook.com

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { AiOutlineReload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
-import "../pages/Home.css"; // Updated CSS
+import "../pages/Home.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const HomePage = () => {
 
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("https://backendfyp-production.up.railway.app/api/category/get-category");
+      const { data } = await axios.get("https://backend-production-8ea6.up.railway.app/api/category/get-category");
       if (data?.success) setCategories(data?.category);
     } catch (error) {
       console.log(error);
@@ -35,7 +35,7 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`https://backendfyp-production.up.railway.app/api/product/product-list/${page}`);
+      const { data } = await axios.get(`https://backend-production-8ea6.up.railway.app/api/product/product-list/${page}`);
       setLoading(false);
       setProducts(data.products);
     } catch (error) {
@@ -46,7 +46,7 @@ const HomePage = () => {
 
   const getTotal = async () => {
     try {
-      const { data } = await axios.get("https://backendfyp-production.up.railway.app/api/product/product-count");
+      const { data } = await axios.get("https://backend-production-8ea6.up.railway.app/api/product/product-count");
       setTotal(data?.total);
     } catch (error) {
       console.log(error);
@@ -61,7 +61,7 @@ const HomePage = () => {
   const loadMore = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`https://backendfyp-production.up.railway.app/api/product/product-list/${page}`);
+      const { data } = await axios.get(`https://backend-production-8ea6.up.railway.app/api/product/product-list/${page}`);
       setLoading(false);
       setProducts([...products, ...(data?.products || [])]);
     } catch (error) {
@@ -82,7 +82,7 @@ const HomePage = () => {
 
   const filterProduct = async () => {
     try {
-      const { data } = await axios.post("https://backendfyp-production.up.railway.app/api/product/product-filters", {
+      const { data } = await axios.post("https://backend-production-8ea6.up.railway.app/api/product/product-filters", {
         checked,
       });
       setProducts(data?.products);
@@ -108,7 +108,9 @@ const HomePage = () => {
         <div className="header-left">
           <p className="offer-text">Limited Time Offer: Get 40% Off Now!</p>
           <h1 className="main-heading">Architectural Designing Made Easy</h1>
-          <p className="sub-heading">Get Your Premade Templates at Affordable Prices</p>
+          <p className="sub-heading">
+            Get Your Premade Templates at Affordable Prices
+          </p>
           <button className="shop-now-btn">Shop Now</button>
         </div>
       </header>
@@ -124,7 +126,10 @@ const HomePage = () => {
               {c.name}
             </Checkbox>
           ))}
-          <button className="reset-btn" onClick={() => window.location.reload()}>
+          <button
+            className="reset-btn"
+            onClick={() => window.location.reload()}
+          >
             Reset Filters
           </button>
         </aside>
@@ -134,7 +139,11 @@ const HomePage = () => {
             {products?.map((p) => (
               <div className="card" key={p._id}>
                 {p.photo && p.photo.length > 0 && (
-                  <img src={p.photo[0].url} className="card-img-top" alt={p.name} />
+                  <img
+                    src={p.photo[0].url}
+                    className="card-img-top"
+                    alt={p.name}
+                  />
                 )}
                 <div className="card-body">
                   <h5 className="card-title">{p.name}</h5>
@@ -144,23 +153,38 @@ const HomePage = () => {
                       currency: "USD",
                     })}
                   </h5>
-                  <p className="card-text">{p.description.substring(0, 60)}...</p>
+                  <p className="card-text">
+                    {p.description.substring(0, 60)}...
+                  </p>
                   <div className="card-name-price">
-                    <button onClick={() => navigate(`/product/${p.slug}`)} className="btn">
+                    <button
+                      onClick={() => navigate(`/product/${p.slug}`)}
+                      className="btn"
+                    >
                       More Details
                     </button>
                     <button
                       onClick={() => {
-                        setCart([...cart, p]);
-                        localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                        toast.success("Item Added to cart");
+                        const alreadyInCart = cart.find(
+                          (item) => item._id === p._id
+                        );
+                        if (alreadyInCart) {
+                          toast.error("Item is already in your cart");
+                          return;
+                        }
+                        const updatedCart = [...cart, p];
+                        setCart(updatedCart);
+                        localStorage.setItem("cart", JSON.stringify(updatedCart));
+                        toast.success("Item added to cart");
                       }}
                       className="btn"
                     >
                       Add to Cart
                     </button>
                     {get3DModelUrl(p.name) && (
-                      <button className="btn" onClick={() => setView3D(p._id)}>View 3D</button>
+                      <button className="btn" onClick={() => setView3D(p._id)}>
+                        View 3D
+                      </button>
                     )}
                   </div>
                   {view3D === p._id && (
@@ -191,7 +215,6 @@ const HomePage = () => {
             </div>
           )}
         </main>
-
       </div>
     </div>
   );

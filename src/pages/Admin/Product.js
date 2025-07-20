@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import Adminmenu from "../../components/Adminmenu";
@@ -10,7 +10,7 @@ const Products = () => {
   // Get all products
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get("/api/product/get-product");
+      const { data } = await axios.get("https://backend-production-8ea6.up.railway.app/api/product/get-product");
       setProducts(data.products);
     } catch (error) {
       console.log(error);
