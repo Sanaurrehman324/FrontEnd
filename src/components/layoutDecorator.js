@@ -18,7 +18,7 @@ function LayoutDecorator() {
         "Evergreen Duplex Residence Interior": "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264946/jaime_fgzsc2.glb",
         "Evergreen Duplex Residence": "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264946/jaime_fgzsc2.glb",
         "Luxury Classical Villa": "https://res.cloudinary.com/dgnppjqah/image/upload/v1752263471/Allysa_j6siev.glb",
-        "Modern Apartment Interior Layout": "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264872/Hamisha_vvmn2q.glb",
+        "The White Haven Exterior": "https://res.cloudinary.com/dgnppjqah/image/upload/v1753109365/EXT_MODEL_x3mbgm.glb",
     };
 
     const sceneRef = useRef(new THREE.Scene());

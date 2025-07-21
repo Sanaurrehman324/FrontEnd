@@ -7,11 +7,11 @@ const layouts = [
         modelPath: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264946/jaime_fgzsc2.glb",
         icon: "🏠",
     },
-    // {
-    //     name: "Luxury Classical Villa",
-    //     modelPath: "/models/mdab.glb",
-    //     icon: "🏡",
-    // },
+    {
+        name: "Luxury Classical Villa",
+        modelPath: "/models/mdab.glb",
+        icon: "🏡",
+    },
     {
         name: "Modern Appartment Interior Layout",
         modelPath: "https://res.cloudinary.com/dgnppjqah/image/upload/v1752264872/Hamisha_vvmn2q.glb",
